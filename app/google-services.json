@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "919197841990",
+    "firebase_url": "https://covid-pass-test-default-rtdb.firebaseio.com",
+    "project_id": "covid-pass-test",
+    "storage_bucket": "covid-pass-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919197841990:android:2053d5110ebc75d8806847",
+        "android_client_info": {
+          "package_name": "com.example.covidpassproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "919197841990-qo65b94ikuju9qetu1bivfue4dju4v5m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmobzE_3K9kdARR1mI57zJu50JQMRO0Xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "919197841990-qo65b94ikuju9qetu1bivfue4dju4v5m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
