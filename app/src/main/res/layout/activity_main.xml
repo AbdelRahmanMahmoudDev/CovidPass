@@ -5,45 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#6488AF"
-    tools:context=".MainActivity">
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="202dp"
-        android:layout_height="218dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.578"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.142"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true">
-
-
-    </com.airbnb.lottie.LottieAnimationView>
-
-    <Button
-        android:id="@+id/btn_SignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SignIn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.305"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.554" />
-
-    <Button
-        android:id="@+id/btn_SignUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SignUp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.798"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.553" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    tools:context=".MainActivity"/>

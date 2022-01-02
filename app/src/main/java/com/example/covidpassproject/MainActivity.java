@@ -1,11 +1,9 @@
 package com.example.covidpassproject;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -16,26 +14,8 @@ FirebaseAuth auth=FirebaseAuth.getInstance();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        b1=findViewById(R.id.btn_SignIn);
-        b2=findViewById(R.id.btn_SignUp);
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,SignIn.class);
-                finish();
-                startActivity(intent);
-            }
 
-        });
 
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(MainActivity.this,SignUP.class);
-                finish();
-                startActivity(intent);
-            }
-        });
     }
 }
