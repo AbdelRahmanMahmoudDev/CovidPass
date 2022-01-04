@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "919197841990",
-    "firebase_url": "https://covid-pass-test-default-rtdb.firebaseio.com",
-    "project_id": "covid-pass-test",
-    "storage_bucket": "covid-pass-test.appspot.com"
+    "project_number": "763444077548",
+    "project_id": "covidtest-15516",
+    "storage_bucket": "covidtest-15516.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:919197841990:android:2053d5110ebc75d8806847",
+        "mobilesdk_app_id": "1:763444077548:android:78144af1cbc439095616c9",
         "android_client_info": {
           "package_name": "com.example.covidpassproject"
         }
       },
       "oauth_client": [
         {
-          "client_id": "919197841990-qo65b94ikuju9qetu1bivfue4dju4v5m.apps.googleusercontent.com",
+          "client_id": "763444077548-c60ih6s7nrojdhdk88d5383c90s5so9k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBmobzE_3K9kdARR1mI57zJu50JQMRO0Xw"
+          "current_key": "AIzaSyDjKLETv9Q-6ZcOv1Kf8NVWzXg42hlGsqk"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "919197841990-qo65b94ikuju9qetu1bivfue4dju4v5m.apps.googleusercontent.com",
+              "client_id": "763444077548-c60ih6s7nrojdhdk88d5383c90s5so9k.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -34,7 +34,6 @@ android {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
-
     implementation "com.airbnb.android:lottie:4.2.2"
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
@@ -49,6 +48,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation 'com.google.firebase:firebase-analytics'
     implementation "com.airbnb.android:lottie:4.2.2"
+    implementation 'com.google.firebase:firebase-database'
     //noinspection GradleCompatible
     implementation 'com.android.support:support-v4:28.0.0'
     //noinspection GradleCompatible
