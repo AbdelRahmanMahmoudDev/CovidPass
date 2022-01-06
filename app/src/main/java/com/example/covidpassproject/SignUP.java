@@ -1,6 +1,7 @@
 package com.example.covidpassproject;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,6 +23,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 
 public class SignUP extends AppCompatActivity {
     EditText email,password,passwordCheck,name,id,vaccineCode,phone;
@@ -30,6 +36,7 @@ public class SignUP extends AppCompatActivity {
     ListView listView;
     ArrayList<String> vaccine;
     ArrayAdapter adapter;
+    HashMap<String, EditText> form_data;
 
     private String UserID;
 
@@ -54,24 +61,57 @@ public class SignUP extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
+        form_data = new HashMap<String, EditText>();
+
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: cross reference password with PasswordCheck
                 PersonNode person_node = new PersonNode();
 
+                // Enforce an empty table every time
+                if(!form_data.isEmpty()) {
+                    form_data.clear();
+                }
+
                 String Name=name.getText().toString();
                 String Email=email.getText().toString();
                 String Password=password.getText().toString();
-                String PasswordCheck=passwordCheck.getText().toString();
+                String password_check=passwordCheck.getText().toString();
                 String Phone=phone.getText().toString();
                 String vacid=vaccineCode.getText().toString();
                 String ID=id.getText().toString();
 
-                Person p =new Person(Name,Email,Phone,vacid,ID,Password);
-                person_node.add(p).addOnFailureListener(failure -> {
-                    Toast.makeText(v.getContext(), failure.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+                form_data.put(Name, name);
+                form_data.put(Email,email);
+                form_data.put(Password, password);
+                form_data.put(password_check, passwordCheck);
+                form_data.put(Phone, phone);
+                form_data.put(vacid, vaccineCode);
+                form_data.put(ID, id);
+
+                boolean is_empty_field = false;
+                boolean is_unmatched_password = false;
+
+                for(Map.Entry m : form_data.entrySet()) {
+                        if(m.getKey().toString().isEmpty()) {
+                            is_empty_field = true;
+                            EditText empty = (EditText) m.getValue();
+                            empty.setError("This field is required");
+                    }
+                }
+
+                if(!Password.equals(password_check)) {
+                    is_unmatched_password = true;
+                    passwordCheck.setError("Doesn't match password field");
+                }
+
+                if(!is_empty_field && !is_unmatched_password) {
+                    Person p =new Person(Name,Email,Phone,vacid,ID,Password);
+                    person_node.add(p).addOnFailureListener(failure -> {
+                        Toast.makeText(v.getContext(), failure.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+                }
             }
         });
 
