@@ -5,6 +5,8 @@ package com.example.covidpassproject;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -12,10 +14,12 @@ import java.util.HashMap;
 
 public class PersonNode {
     private DatabaseReference m_database_reference;
+    private FirebaseAuth m_firebase_auth;
 
     public PersonNode() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         m_database_reference = database.getReference(Person.class.getSimpleName());
+        m_firebase_auth = FirebaseAuth.getInstance();
     }
 
     // Adds nodes to a database
@@ -35,6 +39,11 @@ public class PersonNode {
     // This can be used to update the VaccinationStatus property
     public Task<Void> update(String key, HashMap<String, Object> property_data) {
         Task<Void> result = m_database_reference.child(key).updateChildren(property_data);
+        return result;
+    }
+
+    public Task<AuthResult> AuthenticateEmailAndPassword(String email, String password) {
+        Task<AuthResult> result = m_firebase_auth.signInWithEmailAndPassword(email, password);
         return result;
     }
 }
