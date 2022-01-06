@@ -1,0 +1,40 @@
+package com.example.covidpassproject;
+
+// This representa the node that Firebase interacts with
+
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
+public class PersonNode {
+    private DatabaseReference m_database_reference;
+
+    public PersonNode() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        m_database_reference = database.getReference(Person.class.getSimpleName());
+    }
+
+    // Adds nodes to a database
+    public Task<Void> add(Person person) {
+        // push() automatically generates a UUID
+        Task<Void> result = null;
+        if(person != null) {
+            result = m_database_reference.push().setValue(person);
+        }
+        else {
+            // TODO: Log insertion error
+        }
+        return result;
+    }
+
+    // Updates a node in a database
+    // This can be used to update the VaccinationStatus property
+    public Task<Void> update(String key, HashMap<String, Object> property_data) {
+        Task<Void> result = m_database_reference.child(key).updateChildren(property_data);
+        return result;
+    }
+}

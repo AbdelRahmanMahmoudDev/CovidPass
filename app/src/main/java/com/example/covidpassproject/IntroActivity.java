@@ -44,15 +44,14 @@ public class IntroActivity extends AppCompatActivity {
 
 
         // when this activity is about to be launch we need to check if its openened before or not
-
-        if (restorePrefData()) {
-
-            Intent mainActivity = new Intent(getApplicationContext(),MainActivity.class );
-            startActivity(mainActivity);
-            finish();
-
-
-        }
+        // Disabling this for now
+        // Reinstalling the app every build is very impractical
+        // TODO: Build something meaningful in main activity!!!
+        //if (restorePrefData()) {
+        //    Intent mainActivity = new Intent(getApplicationContext(),MainActivity.class );
+        //    startActivity(mainActivity);
+        //    finish();
+        //}
 
         setContentView(R.layout.activity_intro);
 

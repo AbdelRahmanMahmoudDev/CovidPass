@@ -1,21 +1,27 @@
 package com.example.covidpassproject;
 
 public class Person {
-    String Name;
-    String Email;
-    String Phone;
-    String vacID;
-    String ID;
-    String Password;
+    private String Name;
+    private String Email;
+    private String Phone;
+    private String vacID;
+    private String ID;
+    private String Password;
+    private boolean VaccinationStatus;
 
+
+    // DON'T DELETE THIS
+    // Firebase API requires an empty constructor for it's introspection systems
+    public Person() {}
 
     public Person(String name, String email, String phone, String vacID, String ID, String password) {
-        Name = name;
-        Email = email;
-        Phone = phone;
+        this.Name = name;
+        this.Email = email;
+        this.Phone = phone;
         this.vacID = vacID;
         this.ID = ID;
-        Password = password;
+        this.Password = password;
+        this.VaccinationStatus = false;
 
     }
 
@@ -41,6 +47,10 @@ public class Person {
 
     public String getPassword() {
         return Password;
+    }
+
+    public boolean getVaccinationStatus() {
+        return VaccinationStatus;
     }
 
 
