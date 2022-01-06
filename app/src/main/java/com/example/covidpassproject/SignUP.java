@@ -30,24 +30,17 @@ public class SignUP extends AppCompatActivity {
     ListView listView;
     ArrayList<String> vaccine;
     ArrayAdapter adapter;
+
     private String UserID;
-
-
-    FirebaseAuth auth;
-    FirebaseDatabase firebaseDatabase;
-    FirebaseAuth.AuthStateListener mAuthListener;
-    DatabaseReference myRef;
-
-
-
+    private PersonNode person_node;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        email=findViewById(R.id.email_txt);
+        email=findViewById(R.id.Email_txt);
         phone=findViewById(R.id.Phone_txt);
-        password=findViewById(R.id.password_txt);
+        password=findViewById(R.id.Password_txt );
         passwordCheck=findViewById(R.id.PasswordCheck_txt);
         name =findViewById(R.id.name_txt);
         id=findViewById(R.id.id_txt);
@@ -57,50 +50,17 @@ public class SignUP extends AppCompatActivity {
         signup=findViewById(R.id.SignUp_btn);
         back=findViewById(R.id.back_btn);
 
-        auth = FirebaseAuth.getInstance();
-        firebaseDatabase = firebaseDatabase.getInstance();
-        myRef=firebaseDatabase.getReference();
-        FirebaseUser user=auth.getCurrentUser();
-       UserID = user.getUid();
-
-
         vaccine=new ArrayList<String>(Arrays.asList("astrazeneca","fizer"));
         adapter=new ArrayAdapter(this, android.R.layout.simple_list_item_1,vaccine);
 
         listView.setAdapter(adapter);
 
-
-        mAuthListener=new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null)
-                {
-                    Toast.makeText(SignUP.this,"Successfully Signed In With:"+user.getEmail(),Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(SignUP.this,"Successfully Signed Out",Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
+        person_node = new PersonNode();
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: cross reference password with PasswordCheck
                 String Name=name.getText().toString();
                 String Email=email.getText().toString();
                 String Password=password.getText().toString();
@@ -110,25 +70,13 @@ public class SignUP extends AppCompatActivity {
                 String ID=id.getText().toString();
 
                 Person p =new Person(Name,Email,Phone,vacid,ID,Password);
-                myRef.child("users").child(UserID).setValue(p);
+                person_node.add(p).addOnFailureListener(failure -> {
+                    Toast.makeText(v.getContext(), failure.getMessage(), Toast.LENGTH_SHORT).show();
+                });
             }
         });
 
 
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        auth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(mAuthListener != null){
-            auth.removeAuthStateListener(mAuthListener);
-        }
     }
 }

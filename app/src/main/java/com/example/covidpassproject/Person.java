@@ -9,6 +9,10 @@ public class Person {
     String Password;
 
 
+    // DON'T DELETE THIS
+    // Firebase API requires an empty constructor for it's introspection systems
+    public Person() {}
+
     public Person(String name, String email, String phone, String vacID, String ID, String password) {
         Name = name;
         Email = email;
