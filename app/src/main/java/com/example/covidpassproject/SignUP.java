@@ -32,7 +32,6 @@ public class SignUP extends AppCompatActivity {
     ArrayAdapter adapter;
 
     private String UserID;
-    private PersonNode person_node;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +54,12 @@ public class SignUP extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
-        person_node = new PersonNode();
-
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: cross reference password with PasswordCheck
+                PersonNode person_node = new PersonNode();
+
                 String Name=name.getText().toString();
                 String Email=email.getText().toString();
                 String Password=password.getText().toString();
