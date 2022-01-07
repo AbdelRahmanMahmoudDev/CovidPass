@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "763444077548",
+    "firebase_url": "https://covidtest-15516-default-rtdb.firebaseio.com",
     "project_id": "covidtest-15516",
     "storage_bucket": "covidtest-15516.appspot.com"
   },

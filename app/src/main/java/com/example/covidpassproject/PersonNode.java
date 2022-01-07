@@ -17,7 +17,7 @@ public class PersonNode {
     private FirebaseAuth m_firebase_auth;
 
     public PersonNode() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://covidtest-15516-default-rtdb.firebaseio.com/");
         m_database_reference = database.getReference(Person.class.getSimpleName());
         m_firebase_auth = FirebaseAuth.getInstance();
     }

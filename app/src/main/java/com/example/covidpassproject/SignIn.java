@@ -10,19 +10,19 @@ import android.widget.EditText;
 
 public class SignIn extends AppCompatActivity {
 
-    Button b1,b2;
+    Button back,signin;
     EditText email,password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-        b1=findViewById(R.id.back_btn);
-        b2=findViewById(R.id.signin_btn);
+        back=findViewById(R.id.back_btn);
+        signin=findViewById(R.id.signin_btn);
         email=findViewById(R.id.email_txt);
         password=findViewById(R.id.password_txt);
 
-        b1.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(SignIn.this,MainActivity.class);
@@ -30,7 +30,7 @@ public class SignIn extends AppCompatActivity {
             }
         });
 
-        b2.setOnClickListener(new View.OnClickListener() {
+        signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent signin=new Intent(SignIn.this,vaccinated_Activity.class);

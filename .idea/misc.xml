@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Dev-Learn/AAST/Mobile_Applications/CovidPass/app/src/main/res/layout/activity_signin.xml" value="0.38697916666666665" />
-        <entry key="..\:/Dev-Learn/AAST/Mobile_Applications/CovidPass/app/src/main/res/layout/activity_signup.xml" value="0.1816123188405797" />
+        <entry key="..\:/Mobile App Project/CovidPass/app/src/main/res/layout/activity_intro.xml" value="0.36666666666666664" />
+        <entry key="..\:/Mobile App Project/CovidPass/app/src/main/res/layout/activity_main.xml" value="0.17603850050658562" />
+        <entry key="..\:/Mobile App Project/CovidPass/app/src/main/res/layout/activity_signup.xml" value="0.36666666666666664" />
+        <entry key="..\:/Mobile App Project/CovidPass/app/src/main/res/layout/activity_vaccinated.xml" value="0.36666666666666664" />
+        <entry key="..\:/Mobile App Project/CovidPass/app/src/main/res/layout/layout_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/mobile apps/CovidPass/app/src/main/res/drawable-v24/btn_gradient_style.xml" value="0.12129629629629629" />
         <entry key="..\:/mobile apps/CovidPass/app/src/main/res/layout/activity_intro.xml" value="0.264" />
         <entry key="..\:/mobile apps/CovidPass/app/src/main/res/layout/activity_main.xml" value="0.17300724637681159" />

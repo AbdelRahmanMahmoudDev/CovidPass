@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,7 @@ public class SignUP extends AppCompatActivity {
     EditText email,password,passwordCheck,name,id,vaccineCode,phone;
     CheckBox Vaccinated;
     Button signup,back;
-    ListView listView;
+    Spinner listView;
     ArrayList<String> vaccine;
     ArrayAdapter adapter;
     HashMap<String, EditText> form_data;
@@ -58,6 +59,8 @@ public class SignUP extends AppCompatActivity {
 
         vaccine=new ArrayList<String>(Arrays.asList("astrazeneca","fizer"));
         adapter=new ArrayAdapter(this, android.R.layout.simple_list_item_1,vaccine);
+
+        listView.setPrompt("Vaccine Name");
 
         listView.setAdapter(adapter);
 
