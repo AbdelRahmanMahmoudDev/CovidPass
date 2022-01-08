@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignIn extends AppCompatActivity {
 
@@ -25,7 +29,7 @@ public class SignIn extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(SignIn.this,MainActivity.class);
+                Intent intent=new Intent(SignIn.this,IntroActivity.class);
                 startActivity(intent);
             }
         });
@@ -33,15 +37,27 @@ public class SignIn extends AppCompatActivity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signin=new Intent(SignIn.this,vaccinated_Activity.class);
-               // if(email.getText().toString()=="1"&&password.getText().toString()=="1")
-                startActivity(signin);
+                String Email = email.getText().toString();
+                String Password = password.getText().toString();
 
-                //Intent signin2=new Intent(SignIn.this,NotVaccinated_Activity.class);
-                //if(email.getText().toString()=="2"&&password.getText().toString()=="2")
-                  //  startActivity(signin2);
+                PersonNode node = new PersonNode();
+                node.GetFirebaseAuth().signInWithEmailAndPassword(Email, Password).addOnSuccessListener(success -> {
+                    startActivity(new Intent(SignIn.this, MainActivity.class));
+                }).addOnFailureListener(failure -> {
+                    Toast.makeText(SignIn.this, failure.getMessage(), Toast.LENGTH_SHORT);
+                });
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PersonNode node = new PersonNode();
+        FirebaseUser user = node.GetFirebaseAuth().getCurrentUser();
+        if(user != null) {
+            FirebaseAuth.getInstance().signOut();
+        }
     }
 }

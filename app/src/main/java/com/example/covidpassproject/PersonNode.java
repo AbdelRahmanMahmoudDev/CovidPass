@@ -13,8 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class PersonNode {
-    private DatabaseReference m_database_reference;
-    private FirebaseAuth m_firebase_auth;
+    private static DatabaseReference m_database_reference;
+    private static FirebaseAuth m_firebase_auth;
 
     public PersonNode() {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://covidtest-15516-default-rtdb.firebaseio.com/");
@@ -44,6 +44,11 @@ public class PersonNode {
 
     public Task<AuthResult> AuthenticateEmailAndPassword(String email, String password) {
         Task<AuthResult> result = m_firebase_auth.signInWithEmailAndPassword(email, password);
+        return result;
+    }
+
+    public FirebaseAuth GetFirebaseAuth() {
+        FirebaseAuth result = m_firebase_auth;
         return result;
     }
 }

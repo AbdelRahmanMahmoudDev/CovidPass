@@ -1,34 +1,29 @@
 package com.example.covidpassproject;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SignUP extends AppCompatActivity {
     EditText email,password,passwordCheck,name,id,vaccineCode,phone;
@@ -93,32 +88,54 @@ public class SignUP extends AppCompatActivity {
                 form_data.put(vacid, vaccineCode);
                 form_data.put(ID, id);
 
-                boolean is_empty_field = false;
-                boolean is_unmatched_password = false;
-
+                // Loop through all fields to get all errors
+                boolean something_is_empty = false;
                 for(Map.Entry m : form_data.entrySet()) {
                         if(m.getKey().toString().isEmpty()) {
-                            is_empty_field = true;
                             EditText empty = (EditText) m.getValue();
                             empty.setError("This field is required");
+                            something_is_empty = true;
                     }
                 }
 
-                if(!Password.equals(password_check)) {
-                    is_unmatched_password = true;
-                    passwordCheck.setError("Doesn't match password field");
+                if(something_is_empty) {
+                    return;
                 }
 
-                if(!is_empty_field && !is_unmatched_password) {
-                    Person p =new Person(Name,Email,Phone,vacid,ID,Password);
-                    person_node.add(p).addOnFailureListener(failure -> {
-                        Toast.makeText(v.getContext(), failure.getMessage(), Toast.LENGTH_SHORT).show();
+                if(!Password.equals(password_check)) {
+                    passwordCheck.setError("Doesn't match password field");
+                    return;
+                }
+
+                AtomicBoolean is_added_to_database = new AtomicBoolean(true);
+                Person p =new Person(Name,Email,Phone,vacid,ID,Password);
+                person_node.add(p).addOnFailureListener(failure -> {
+                            is_added_to_database.set(false);
+                            Toast.makeText(SignUP.this, failure.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+
+                if(is_added_to_database.get() == true) {
+
+                    person_node.GetFirebaseAuth().createUserWithEmailAndPassword(p.getEmail(), p.getPassword()).addOnSuccessListener(auth -> {
+
+                        Toast.makeText(SignUP.this, "User Created!", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SignUP.this, SignIn.class));
+                    }).addOnFailureListener(fail -> {
+                        Toast.makeText(SignUP.this, fail.getMessage(), Toast.LENGTH_SHORT).show();
+
                     });
                 }
             }
         });
+    }
 
-
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PersonNode node = new PersonNode();
+        FirebaseUser user = node.GetFirebaseAuth().getCurrentUser();
+        if(user != null) {
+            FirebaseAuth.getInstance().signOut();
+        }
     }
 }
