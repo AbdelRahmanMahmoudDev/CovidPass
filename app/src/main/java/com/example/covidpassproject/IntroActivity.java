@@ -1,7 +1,9 @@
 package com.example.covidpassproject;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,7 +13,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -31,10 +36,14 @@ public class IntroActivity extends AppCompatActivity {
     Animation btnAnim ;
     TextView tvSkip;
 
+    // Permission variables
+    public static Boolean isAllPermsGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         // make the activity on full screen
 
@@ -186,7 +195,7 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
 
-
+        GetAppPermssions();
 
     }
 
@@ -223,8 +232,42 @@ public class IntroActivity extends AppCompatActivity {
         // setup animation
         btnsignin.setAnimation(btnAnim);
         btnsignup.setAnimation(btnAnim);
+    }
 
+    private void GetAppPermssions() {
+        String Permissions[] = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
 
+        if(ContextCompat.checkSelfPermission(this.getApplicationContext(), Permissions[0]) == PackageManager.PERMISSION_GRANTED){
+            if(ContextCompat.checkSelfPermission(this.getApplicationContext(), Permissions[1]) == PackageManager.PERMISSION_GRANTED) {
+                isAllPermsGranted = true;
+            }
+            else {
+                ActivityCompat.requestPermissions(this, Permissions, 1234);
+            }
+        }
+        else {
+                ActivityCompat.requestPermissions(this, Permissions, 1234);
+        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        isAllPermsGranted = false;
+
+        switch(requestCode) {
+            case 1234:
+                if(grantResults.length > 0) {
+                    for(int perm_index = 0; perm_index < grantResults.length; perm_index++) {
+                        if(grantResults[perm_index] != PackageManager.PERMISSION_GRANTED) {
+                            isAllPermsGranted = false;
+                            return;
+                        }
+                    }
+
+                    // All good
+                    isAllPermsGranted = true;
+                }
+        }
     }
 }

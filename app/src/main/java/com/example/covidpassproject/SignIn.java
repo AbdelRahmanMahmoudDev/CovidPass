@@ -37,15 +37,19 @@ public class SignIn extends AppCompatActivity {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Email = email.getText().toString();
-                String Password = password.getText().toString();
 
-                PersonNode node = new PersonNode();
-                node.GetFirebaseAuth().signInWithEmailAndPassword(Email, Password).addOnSuccessListener(success -> {
-                    startActivity(new Intent(SignIn.this, MainActivity.class));
-                }).addOnFailureListener(failure -> {
-                    Toast.makeText(SignIn.this, failure.getMessage(), Toast.LENGTH_SHORT);
-                });
+                // Temporary path for testing google maps api
+                startActivity(new Intent(SignIn.this, MapsActivity.class));
+
+                //String Email = email.getText().toString();
+                //String Password = password.getText().toString();
+//
+                //PersonNode node = new PersonNode();
+                //node.GetFirebaseAuth().signInWithEmailAndPassword(Email, Password).addOnSuccessListener(success -> {
+                //    startActivity(new Intent(SignIn.this, MainActivity.class));
+                //}).addOnFailureListener(failure -> {
+                //    Toast.makeText(SignIn.this, failure.getMessage(), Toast.LENGTH_SHORT);
+                //});
             }
         });
 
