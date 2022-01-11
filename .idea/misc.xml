@@ -3,16 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Dev-Learn/AAST/Mobile_Applications/CovidPass/app/src/main/res/drawable/white_border.xml" value="0.403125" />
-        <entry key="..\:/Dev-Learn/AAST/Mobile_Applications/CovidPass/app/src/main/res/layout/activity_maps.xml" value="0.33489583333333334" />
-        <entry key="..\:/Mobile App Project/CovidPass/app/src/main/res/layout/activity_intro.xml" value="0.36666666666666664" />
-        <entry key="..\:/Mobile App Project/CovidPass/app/src/main/res/layout/activity_main.xml" value="0.17603850050658562" />
-        <entry key="..\:/Mobile App Project/CovidPass/app/src/main/res/layout/activity_signup.xml" value="0.36666666666666664" />
-        <entry key="..\:/Mobile App Project/CovidPass/app/src/main/res/layout/activity_vaccinated.xml" value="0.36666666666666664" />
-        <entry key="..\:/Mobile App Project/CovidPass/app/src/main/res/layout/layout_screen.xml" value="0.36666666666666664" />
+        <entry key="..\:/Dev-Learn/AAST/Mobile_Applications/CovidPass/app/src/main/res/layout/activity_signup.xml" value="0.1816123188405797" />
         <entry key="..\:/mobile apps/CovidPass/app/src/main/res/drawable-v24/btn_gradient_style.xml" value="0.12129629629629629" />
         <entry key="..\:/mobile apps/CovidPass/app/src/main/res/layout/activity_intro.xml" value="0.264" />
         <entry key="..\:/mobile apps/CovidPass/app/src/main/res/layout/activity_main.xml" value="0.17300724637681159" />
+        <entry key="..\:/mobile apps/CovidPass/app/src/main/res/layout/activity_maps.xml" value="0.17552083333333332" />
+        <entry key="..\:/mobile apps/CovidPass/app/src/main/res/layout/activity_signup.xml" value="0.2" />
+        <entry key="..\:/mobile apps/CovidPass/app/src/main/res/layout/fragment_name_password_fragment.xml" value="0.264" />
         <entry key="..\:/mobile apps/CovidPass/app/src/main/res/layout/layout_screen.xml" value="0.2" />
         <entry key="..\:/mobile apps/CovidPassProject/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/mobile apps/CovidPassProject/app/src/main/res/layout/activity_not_vaccinated.xml" value="0.1671875" />
