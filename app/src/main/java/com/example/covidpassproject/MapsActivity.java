@@ -31,9 +31,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.covidpassproject.databinding.ActivityMapsBinding;
 
+import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnTokenCanceledListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -49,43 +51,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
-    private FusedLocationProviderClient mLocProv;
-    private PlacesClient mPlacesClient;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
 
-    private static final String KEY_CAMERA_POSITION = "camera_position";
-    private static final String KEY_LOCATION = "location";
 
-    private CameraPosition mCamPos;
-    private Location mLastKnownLocation;
+    // Camera zoom levels
+    private static final float ZOOM_WORLD = 1.0f;
+    private static final float ZOOM_CONTINENT = 5.0f;
+    private static final float ZOOM_CITY = 10.0f;
+    private static final float ZOOM_STREETS = 15.0f;
+    private static final float ZOOM_BUILDINGS = 20.0f;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            mCamPos = savedInstanceState.getParcelable(KEY_LOCATION);
-            mLastKnownLocation = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
-        }
-
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        Places.initialize(getApplicationContext(), BuildConfig.MAPS_API_KEY);
-        mPlacesClient = Places.createClient(this);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
-    }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if (mMap != null) {
-            outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
-            outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
-        }
-        super.onSaveInstanceState(outState);
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
     /**
@@ -102,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         if (IntroActivity.isAllPermsGranted) {
-            GetCurrentDeviceLocation();
+            GetCurrentDeviceLocation(ZOOM_BUILDINGS);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -117,45 +107,60 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         // Add a marker in Sydney and move the camera
-        //LatLng alexandria = new LatLng(31.2001, 29.9187);
-        //mMap.addMarker(new MarkerOptions().position(alexandria).title("Marker in Alexandria"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(alexandria));
+        LatLng alexandria = new LatLng(31.2001, 29.9187);
+        mMap.addMarker(new MarkerOptions().position(alexandria).title("Marker in Alexandria"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(alexandria));
     }
 
     private void MoveCamera(LatLng coordinate, float zoom) {
         Log.d(TAG, "MoveCamera: Moving camera to (Latitude: " + coordinate.latitude + " Longitude: " + coordinate.longitude + ")");
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, zoom));
+
+        MarkerOptions options = new MarkerOptions()
+                .position((coordinate))
+                .title("You");
+
+        mMap.addMarker(options);
     }
 
-    private void GetCurrentDeviceLocation() {
+    private void MoveCameraWithMarker(LatLng coordinate, float zoom, String marker_title) {
+        Log.d(TAG, "MoveCamera: Moving camera to (Latitude: " + coordinate.latitude + " Longitude: " + coordinate.longitude + ")");
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, zoom));
+
+        MarkerOptions options = new MarkerOptions()
+                .position((coordinate))
+                .title(marker_title);
+
+        mMap.addMarker(options);
+    }
+
+    private void GetCurrentDeviceLocation(float zoom) {
         Log.d(TAG, "GetCurrentDeviceLocation: Attempting to get device location");
-
-        mLocProv = LocationServices.getFusedLocationProviderClient(this);
-        try {
-            if(IntroActivity.isAllPermsGranted) {
-                Task location_task = mLocProv.getLastLocation();
-
-                location_task.addOnSuccessListener(success -> {
-                    Location current_location = (Location) location_task.getResult();
-                    if(current_location != null) {
-                        MoveCamera(new LatLng(current_location.getLatitude(), current_location.getLongitude()), 15.0f);
-                    }
-                    else {
-                        Log.d(TAG, "GetCurrentDeviceLocation: Location is null");
-                    }
-                });
-
-                location_task.addOnFailureListener(failure -> {
-                    Log.d(TAG, "GetCurrentDeviceLocation: Failed to get current location");
-                    Toast.makeText(MapsActivity.this, "Could not retrieve current location", Toast.LENGTH_SHORT).show();
-                });
+        if (IntroActivity.isAllPermsGranted) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
             }
-            else {
-                Log.d(TAG, "GetCurrentDeviceLocation: Location permissions are not granted!");
-            }
-        }
-        catch(SecurityException e) {
-            Log.d(TAG, "GetCurrentDeviceLocation: SecurityException: " + e.getMessage());
+            mFusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    if(task.isSuccessful()) {
+                        Location location = task.getResult();
+                        if(location != null) {
+                            Log.d(TAG, "GetCurrentDeviceLocation: " +  "Latitude: " + location.getLatitude() + " Longitude: " + location.getLongitude());
+                            MoveCamera(new LatLng(location.getLatitude(), location.getLongitude()), zoom);
+                        } else {
+                            GetCurrentDeviceLocation(zoom);
+                        }
+                    }
+                }
+            });
         }
     }
 
