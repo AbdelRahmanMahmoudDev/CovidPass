@@ -10,14 +10,20 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -44,6 +50,9 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -53,7 +62,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ActivityMapsBinding binding;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-
     // Camera zoom levels
     private static final float ZOOM_WORLD = 1.0f;
     private static final float ZOOM_CONTINENT = 5.0f;
@@ -61,6 +69,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final float ZOOM_STREETS = 15.0f;
     private static final float ZOOM_BUILDINGS = 20.0f;
 
+    // Widgets
+    private EditText SearchField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +79,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        SearchField = (EditText) findViewById(R.id.search_field);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -76,6 +88,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        SearchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH ||
+                   actionId == EditorInfo.IME_ACTION_DONE   ||
+                   event.getAction() == KeyEvent.ACTION_DOWN ||
+                   event.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    SearchGeo();
+                }
+                return false;
+            }
+        });
     }
 
     /**
@@ -115,12 +140,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void MoveCamera(LatLng coordinate, float zoom) {
         Log.d(TAG, "MoveCamera: Moving camera to (Latitude: " + coordinate.latitude + " Longitude: " + coordinate.longitude + ")");
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinate, zoom));
-
-        MarkerOptions options = new MarkerOptions()
-                .position((coordinate))
-                .title("You");
-
-        mMap.addMarker(options);
     }
 
     private void MoveCameraWithMarker(LatLng coordinate, float zoom, String marker_title) {
@@ -161,6 +180,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
             });
+        }
+    }
+
+    private void SearchGeo() {
+        Log.d(TAG, "SearchGeo: Searching for location");
+
+        String search_string = SearchField.getText().toString();
+
+        Geocoder geocoder = new Geocoder(MapsActivity.this);
+
+        List<Address> list = new ArrayList<Address>();
+
+        try {
+            list = geocoder.getFromLocationName(search_string, 10);
+
+            if(list != null) {
+                Log.d(TAG, "SearhGeo: list has values");
+                for(int i = 0; i < list.size(); i++) {
+                    Address address = list.get(i);
+                    MoveCameraWithMarker(new LatLng(address.getLatitude(), address.getLongitude()), ZOOM_BUILDINGS, address.getAddressLine(0));
+                }
+            }
+            else {
+                Log.d(TAG, "SearhGeo: list is null");
+            }
+        }
+        catch(IOException e) {
+            Log.d(TAG,"SearchGeo: " + e.getMessage());
         }
     }
 
