@@ -38,6 +38,10 @@ public class IntroActivity extends AppCompatActivity {
 
     // Permission variables
     public static Boolean isAllPermsGranted = false;
+    public static final int PERM_REQUEST = 1234;
+    //public static final int FINE_LOC_PERM = 9001;
+    //public static final int COARSE_LOC_PERM = 9002;
+    //public static final int INTERNET_PERM = 9003;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -235,18 +239,24 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void GetAppPermssions() {
-        String Permissions[] = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+        String Permissions[] = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET};
 
         if(ContextCompat.checkSelfPermission(this.getApplicationContext(), Permissions[0]) == PackageManager.PERMISSION_GRANTED){
             if(ContextCompat.checkSelfPermission(this.getApplicationContext(), Permissions[1]) == PackageManager.PERMISSION_GRANTED) {
-                isAllPermsGranted = true;
+                if(ContextCompat.checkSelfPermission(this.getApplicationContext(), Permissions[2]) == PackageManager.PERMISSION_GRANTED) {
+                    // All permissions granted
+                    isAllPermsGranted = true;
+                }
+                else {
+                    ActivityCompat.requestPermissions(this, Permissions, PERM_REQUEST);
+                }
             }
             else {
-                ActivityCompat.requestPermissions(this, Permissions, 1234);
+                ActivityCompat.requestPermissions(this, Permissions, PERM_REQUEST);
             }
         }
         else {
-                ActivityCompat.requestPermissions(this, Permissions, 1234);
+                ActivityCompat.requestPermissions(this, Permissions, PERM_REQUEST);
         }
     }
 
@@ -256,7 +266,7 @@ public class IntroActivity extends AppCompatActivity {
         isAllPermsGranted = false;
 
         switch(requestCode) {
-            case 1234:
+            case PERM_REQUEST:
                 if(grantResults.length > 0) {
                     for(int perm_index = 0; perm_index < grantResults.length; perm_index++) {
                         if(grantResults[perm_index] != PackageManager.PERMISSION_GRANTED) {
