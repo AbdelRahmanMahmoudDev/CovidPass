@@ -2,7 +2,8 @@
 
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -46,5 +47,24 @@
             android:singleLine="true"/>
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="350dp">
+
+        <ImageView
+            android:id="@+id/icon_NearestHospitals"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@drawable/white_border"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/icon_hospital_red" />
+
+    </RelativeLayout>
+
 
 </RelativeLayout>

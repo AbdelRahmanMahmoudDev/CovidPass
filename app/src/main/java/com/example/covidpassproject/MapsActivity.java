@@ -23,10 +23,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,6 +36,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.covidpassproject.databinding.ActivityMapsBinding;
 
@@ -55,7 +58,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
@@ -69,8 +72,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final float ZOOM_STREETS = 15.0f;
     private static final float ZOOM_BUILDINGS = 20.0f;
 
+    // User map data
+    private Location mUserLocation;
+    private Marker mUserMarker;
+    private LatLng mUserLatLng;
+    private static final int mProximityRadius = 50000;
+
     // Widgets
     private EditText SearchField;
+    private ImageView Hospitals_Icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +90,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(binding.getRoot());
 
         SearchField = (EditText) findViewById(R.id.search_field);
+        Hospitals_Icon = (ImageView) findViewById(R.id.icon_NearestHospitals);
+
+        Hospitals_Icon.setOnClickListener(click -> {
+            String hospital_token = "hospital";
+            Object transferData[] = new Object[2];
+            String URL = getURL(mUserLatLng, hospital_token);
+            GetNearbyPlacesTask places_task = new GetNearbyPlacesTask();
+            transferData[0] = mMap;
+            transferData[1] = URL;
+            places_task.execute(transferData);
+            Toast.makeText(MapsActivity.this, "Searching for Nearby Hospitals...", Toast.LENGTH_SHORT).show();
+        });
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -112,6 +134,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * it inside the SupportMapFragment. This method will only be triggered once the user has
      * installed Google Play services and returned to the app.
      */
+    private String getURL(LatLng lat_lng, String token) {
+        StringBuilder builder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        builder.append("&location=" + lat_lng.latitude + "%" + lat_lng.longitude);
+        builder.append("&radius=" + mProximityRadius);
+        builder.append("&type=" + token);
+
+        builder.append("&key=" + getString(R.string.Google_Maps_API_Key));
+
+        Log.d(TAG, "URL: " + builder.toString());
+
+        return builder.toString();
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -174,6 +209,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if(location != null) {
                             Log.d(TAG, "GetCurrentDeviceLocation: " +  "Latitude: " + location.getLatitude() + " Longitude: " + location.getLongitude());
                             MoveCamera(new LatLng(location.getLatitude(), location.getLongitude()), zoom);
+                            mUserLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                         } else {
                             GetCurrentDeviceLocation(zoom);
                         }
@@ -211,4 +247,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+        mUserLocation = location;
+
+        if(mUserMarker != null) {
+            mUserMarker.remove();
+        }
+
+        mUserLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mUserLatLng));
+    }
 }
