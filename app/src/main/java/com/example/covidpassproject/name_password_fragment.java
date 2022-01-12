@@ -1,12 +1,17 @@
 package com.example.covidpassproject;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +19,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class name_password_fragment extends Fragment {
+    EditText name,pass,passcheck;
+    Button n1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +65,43 @@ public class name_password_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.fragment_name_password_fragment, container, false);
+        Animation btnAnim = AnimationUtils.loadAnimation(getActivity(),R.anim.button_animation);
+
+
+        name=v.findViewById(R.id.frgName_txt);
+        pass=v.findViewById(R.id.frgPassword_txt);
+        passcheck=v.findViewById(R.id.frgpasswordCheck_txt);
+        n1=v.findViewById(R.id.nv1_tn);
+        //if(name.getText().toString().isEmpty()!=true&&pass.getText().toString().isEmpty()!=true&&passcheck.getText().toString().isEmpty()!=true)
+        //{
+            n1.setVisibility(View.VISIBLE);
+            n1.setAnimation(btnAnim);
+
+       // }
+
+        n1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!pass.getText().toString().equals(passcheck.getText().toString()))
+                {
+                    Toast.makeText(getActivity(),"Doesn't match password field",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String n = name.getText().toString();
+                    String p = pass.getText().toString();
+                    SignUP s = (SignUP) getActivity();
+                    s.fillNamePassword(n, p);
+                    s.stepView.go(1, true);
+                    Navigation.findNavController(v).navigate(R.id.action_name_password_fragment_to_email_Password_fragment);
+                }
+
+
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_name_password_fragment, container, false);
+        return v;
     }
 }

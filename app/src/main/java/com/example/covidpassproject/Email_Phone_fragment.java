@@ -6,18 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Email_Password_fragment#newInstance} factory method to
+ * Use the {@link Email_Phone_fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Email_Password_fragment extends Fragment {
-    EditText name,pass,passcheck;
-    Button n1;
+public class Email_Phone_fragment extends Fragment {
+    EditText frgemail,frgphone;
+    Button epNext;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,7 +30,7 @@ public class Email_Password_fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Email_Password_fragment() {
+    public Email_Phone_fragment() {
         // Required empty public constructor
     }
 
@@ -41,8 +43,8 @@ public class Email_Password_fragment extends Fragment {
      * @return A new instance of fragment Email_Password_fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Email_Password_fragment newInstance(String param1, String param2) {
-        Email_Password_fragment fragment = new Email_Password_fragment();
+    public static Email_Phone_fragment newInstance(String param1, String param2) {
+        Email_Phone_fragment fragment = new Email_Phone_fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -62,35 +64,33 @@ public class Email_Password_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v=inflater.inflate(R.layout.fragment_email__password_fragment, container, false);
-        name=v.findViewById(R.id.frgName_txt);
-        pass=v.findViewById(R.id.password_txt);
-        passcheck=v.findViewById(R.id.frgpasswordCheck_txt);
-        n1=v.findViewById(R.id.nv1_tn);
-        n1.setOnClickListener(new View.OnClickListener() {
+
+        View v=inflater.inflate(R.layout.fragment_email__phone_fragment, container, false);
+        frgemail=v.findViewById(R.id.frgEmail_txt);
+        frgphone=v.findViewById(R.id.frgPhone_txt);
+        epNext=v.findViewById(R.id.EPnext_btn);
+
+        epNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              /*  if(name.getText().toString()==null||pass.getText().toString()==null||passcheck.getText().toString()==null)
+                if(frgemail.getText().toString().isEmpty()==true||frgphone.getText().toString().isEmpty()==true)
                 {
-                    Toast.makeText(getActivity(),"Please fill all the Data First",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Please Enter a valid email and password first",Toast.LENGTH_SHORT).show();
                 }
-                else if(pass.getText().toString()!=passcheck.getText().toString())
-                {
-                    Toast.makeText(getActivity(),"Doesn't match password field",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {*/
-                    String n=name.getText().toString();
-                    String p=pass.getText().toString();
+                else{
+                    String e=frgemail.getText().toString();
+                    String p=frgphone.getText().toString();
                     SignUP s=(SignUP) getActivity();
-                    s.fillNamePassword(n,p);
-                    s.stepView.go(1,true);
-                    Navigation.findNavController(v).navigate(R.id.action_name_password_fragment_to_email_Password_fragment);
+                    s.fillemailPhone(e,p);
+                    s.stepView.go(2,true);
+                    Navigation.findNavController(v).navigate(R.id.action_email_Phone_fragment_to_vacCheck);
 
 
-               // }
+                }
             }
         });
+
+
         return v;
     }
 }

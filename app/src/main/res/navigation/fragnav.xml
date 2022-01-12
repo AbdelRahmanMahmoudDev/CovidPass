@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_name_password_fragment" >
         <action
             android:id="@+id/action_name_password_fragment_to_email_Password_fragment"
-            app:destination="@id/email_Password_fragment"
+            app:destination="@id/email_Phone_fragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
@@ -22,14 +22,21 @@
         android:label="fragment_id_vacid_fragment"
         tools:layout="@layout/fragment_id_vacid_fragment" />
     <fragment
-        android:id="@+id/email_Password_fragment"
-        android:name="com.example.covidpassproject.Email_Password_fragment"
+        android:id="@+id/email_Phone_fragment"
+        android:name="com.example.covidpassproject.Email_Phone_fragment"
         android:label="fragment_email__password_fragment"
-        tools:layout="@layout/fragment_email__password_fragment" >
+        tools:layout="@layout/fragment_email__phone_fragment" >
         <action
-            android:id="@+id/action_email_Password_fragment_to_id_vacid_fragment"
-            app:destination="@id/id_vacid_fragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            android:id="@+id/action_email_Phone_fragment_to_vacCheck"
+            app:destination="@id/vacCheck" />
+    </fragment>
+    <fragment
+        android:id="@+id/vacCheck"
+        android:name="com.example.covidpassproject.VacCheck"
+        android:label="fragment_vac_check"
+        tools:layout="@layout/fragment_vac_check" >
+        <action
+            android:id="@+id/action_vacCheck_to_id_vacid_fragment"
+            app:destination="@id/id_vacid_fragment" />
     </fragment>
 </navigation>
