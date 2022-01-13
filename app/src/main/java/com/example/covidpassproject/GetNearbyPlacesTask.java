@@ -36,7 +36,7 @@ public class GetNearbyPlacesTask extends AsyncTask<Object, String, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        // android.os.Debug.waitForDebugger();
+       // android.os.Debug.waitForDebugger();
         List<HashMap<String, String>> places = null;
         DataParser data_parser = new DataParser();
         places = data_parser.Parse(s);
@@ -60,8 +60,6 @@ public class GetNearbyPlacesTask extends AsyncTask<Object, String, String> {
             options.title(name_of_place + " : " + vicinity);
             options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
             mMap.addMarker(options);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(latitude, longitude)));
-            mMap.animateCamera(CameraUpdateFactory.zoomBy(10));
         }
     }
 }

@@ -76,7 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Location mUserLocation;
     private Marker mUserMarker;
     private LatLng mUserLatLng;
-    private static final int mProximityRadius = 50000;
+    private static final int mProximityRadius = 10000;
 
     // Widgets
     private EditText SearchField;
@@ -136,7 +136,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private String getURL(LatLng lat_lng, String token) {
         StringBuilder builder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        builder.append("&location=" + lat_lng.latitude + "%" + lat_lng.longitude);
+        builder.append("&location=" + lat_lng.latitude + "," + lat_lng.longitude);
         builder.append("&radius=" + mProximityRadius);
         builder.append("&type=" + token);
 
@@ -152,7 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         if (IntroActivity.isAllPermsGranted) {
-            GetCurrentDeviceLocation(ZOOM_BUILDINGS);
+            GetCurrentDeviceLocation(ZOOM_STREETS);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -165,11 +165,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             mMap.setMyLocationEnabled(true);
         }
-
-        // Add a marker in Sydney and move the camera
-        LatLng alexandria = new LatLng(31.2001, 29.9187);
-        mMap.addMarker(new MarkerOptions().position(alexandria).title("Marker in Alexandria"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(alexandria));
     }
 
     private void MoveCamera(LatLng coordinate, float zoom) {
