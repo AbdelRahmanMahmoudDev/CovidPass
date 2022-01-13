@@ -1,13 +1,12 @@
 package com.example.covidpassproject;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,8 +37,8 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // Temporary path for testing QR Code Scanner
-                startActivity(new Intent(SignIn.this, QRCodeScanner.class));
+                // Temporary path for testing google maps api
+                startActivity(new Intent(SignIn.this, MapsActivity.class));
 
                 //String Email = email.getText().toString();
                 //String Password = password.getText().toString();

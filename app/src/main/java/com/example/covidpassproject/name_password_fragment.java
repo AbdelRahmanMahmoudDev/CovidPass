@@ -74,17 +74,26 @@ public class name_password_fragment extends Fragment {
         pass=v.findViewById(R.id.frgPassword_txt);
         passcheck=v.findViewById(R.id.frgpasswordCheck_txt);
         n1=v.findViewById(R.id.nv1_tn);
-        //if(name.getText().toString().isEmpty()!=true&&pass.getText().toString().isEmpty()!=true&&passcheck.getText().toString().isEmpty()!=true)
-        //{
+
             n1.setVisibility(View.VISIBLE);
             n1.setAnimation(btnAnim);
 
-       // }
+
 
         n1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!pass.getText().toString().equals(passcheck.getText().toString()))
+                if(name.getText().toString().isEmpty()&&pass.getText().toString().isEmpty())
+                {
+                    Toast.makeText(getActivity(),"Enter name and password first",Toast.LENGTH_SHORT).show();
+                }
+                else if(!name.getText().toString().isEmpty()&&pass.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(),"Enter a valid password ",Toast.LENGTH_SHORT).show();
+                }
+                else if(name.getText().toString().isEmpty()&&!pass.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(),"Enter your name",Toast.LENGTH_SHORT).show();
+                }
+                else if(!pass.getText().toString().equals(passcheck.getText().toString()))
                 {
                     Toast.makeText(getActivity(),"Doesn't match password field",Toast.LENGTH_SHORT).show();
                 }

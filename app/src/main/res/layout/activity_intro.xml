@@ -6,6 +6,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".IntroActivity"
     android:background="#ffffff">
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/screen_viewpager"
         android:layout_width="0dp"
@@ -14,19 +15,20 @@
         app:layout_constraintBottom_toTopOf="@+id/tab_indicator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></androidx.viewpager.widget.ViewPager>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck"></androidx.viewpager.widget.ViewPager>
+
     <Button
         android:id="@+id/btn_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="20dp"
         android:layout_marginBottom="16dp"
-        android:background="#ffffff"
+        android:backgroundTint="@color/stepview_mark"
         android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
-        android:drawableTint="@color/gradient_start_color"
+        android:drawableTint="@color/colorWhite"
         android:text="Next"
-        android:textColor="@color/gradient_start_color"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
     <com.google.android.material.tabs.TabLayout
@@ -53,7 +55,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="36dp"
-        android:background="@drawable/btn_gradient_style"
+        android:backgroundTint="@color/stepview_mark"
         android:text="SIGN IN"
         android:textColor="#fff"
         android:visibility="invisible"
@@ -69,7 +71,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="36dp"
-        android:background="@drawable/btn_gradient_style"
+        android:backgroundTint="@color/stepview_mark"
         android:text="SIGN UP"
         android:textColor="#fff"
         android:visibility="invisible"
@@ -79,16 +81,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="#2d2d2d"
         android:id="@+id/tv_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
         android:text="Skip"
+        android:textColor="@color/stepview_selected_number"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

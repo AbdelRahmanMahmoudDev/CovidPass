@@ -96,6 +96,10 @@ public class id_vacid_fragment extends Fragment {
                 {
                     Toast.makeText(getContext(), "Please Enter your ID first", Toast.LENGTH_SHORT).show();
                 }
+                else if (vacid.getText().toString().length()!=20)
+                {
+                    Toast.makeText(getContext(),"Enter a valid vaccination ID",Toast.LENGTH_SHORT).show();
+                }
                 else
                 {
                     String i=id.getText().toString();

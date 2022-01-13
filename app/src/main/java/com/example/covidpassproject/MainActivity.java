@@ -1,19 +1,21 @@
 package com.example.covidpassproject;
 
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 public class MainActivity extends AppCompatActivity {
-    Button b1,b2;
-FirebaseAuth auth=FirebaseAuth.getInstance();
+   TextView namet,emailt,vacsatatt,phonet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        namet=(TextView) findViewById(R.id.txtname);
+        emailt=(TextView) findViewById(R.id.txtemail);
+        vacsatatt=(TextView) findViewById(R.id.txtvacstat);
+        phonet=(TextView) findViewById(R.id.txtphone);
 
 
 
