@@ -135,14 +135,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      */
     private String getURL(LatLng lat_lng, String token) {
-        StringBuilder builder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        builder.append("&location=" + lat_lng.latitude + "," + lat_lng.longitude);
-        builder.append("&radius=" + mProximityRadius);
-        builder.append("&type=" + token);
+        StringBuilder builder = null;
+        if(IntroActivity.isLocGranted && IntroActivity.isInternetGranted) {
+            builder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+            builder.append("&location=" + lat_lng.latitude + "," + lat_lng.longitude);
+            builder.append("&radius=" + mProximityRadius);
+            builder.append("&type=" + token);
 
-        builder.append("&key=" + getString(R.string.Google_Maps_API_Key));
+            builder.append("&key=" + getString(R.string.Google_Maps_API_Key));
 
-        Log.d(TAG, "URL: " + builder.toString());
+            Log.d(TAG, "URL: " + builder.toString());
+        }
+        else {
+            String perm_meesage = "Required permissions for map functionality are not granted!";
+            builder = new StringBuilder(perm_meesage);
+            Toast.makeText(MapsActivity.this, perm_meesage, Toast.LENGTH_SHORT).show();
+        }
 
         return builder.toString();
     }
@@ -151,20 +159,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (IntroActivity.isAllPermsGranted) {
-            GetCurrentDeviceLocation(ZOOM_STREETS);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
+            if(IntroActivity.isLocGranted && IntroActivity.isInternetGranted) {
+                GetCurrentDeviceLocation(ZOOM_STREETS);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                mMap.setMyLocationEnabled(true);
             }
-            mMap.setMyLocationEnabled(true);
-        }
+            else {
+                String perm_meesage = "Required permissions for map functionality are not granted!";
+                Toast.makeText(MapsActivity.this, perm_meesage, Toast.LENGTH_SHORT).show();
+            }
     }
 
     private void MoveCamera(LatLng coordinate, float zoom) {
@@ -185,7 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void GetCurrentDeviceLocation(float zoom) {
         Log.d(TAG, "GetCurrentDeviceLocation: Attempting to get device location");
-        if (IntroActivity.isAllPermsGranted) {
+        if(IntroActivity.isLocGranted && IntroActivity.isInternetGranted) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
@@ -211,6 +223,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
             });
+        }
+        else {
+            String perm_meesage = "Required permissions for map functionality are not granted!";
+            Toast.makeText(MapsActivity.this, perm_meesage, Toast.LENGTH_SHORT).show();
         }
     }
 

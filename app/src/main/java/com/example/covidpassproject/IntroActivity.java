@@ -13,6 +13,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -23,6 +26,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class IntroActivity extends AppCompatActivity {
 
@@ -37,11 +41,11 @@ public class IntroActivity extends AppCompatActivity {
     TextView tvSkip;
 
     // Permission variables
-    public static Boolean isAllPermsGranted = false;
     public static final int PERM_REQUEST = 1234;
-    //public static final int FINE_LOC_PERM = 9001;
-    //public static final int COARSE_LOC_PERM = 9002;
-    //public static final int INTERNET_PERM = 9003;
+    ActivityResultLauncher<String[]> mPermResultLauncher;
+    public static boolean isLocGranted = false;
+    public static boolean isInternetGranted = false;
+    public static boolean isCameraGranted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,8 +203,23 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
 
-        GetAppPermssions();
+        mPermResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+            @Override
+            public void onActivityResult(Map<String, Boolean> result) {
+                if((result.get(Manifest.permission.ACCESS_FINE_LOCATION) != null)) {
+                    isLocGranted = result.get(Manifest.permission.ACCESS_FINE_LOCATION);
+                }
 
+                if((result.get(Manifest.permission.INTERNET) != null)) {
+                    isInternetGranted = result.get(Manifest.permission.INTERNET);
+                }
+
+                if((result.get(Manifest.permission.CAMERA) != null)) {
+                    isCameraGranted = result.get(Manifest.permission.CAMERA);
+                }
+            }
+        });
+        RequestAllPermissions();
     }
 
     private boolean restorePrefData() {
@@ -238,46 +257,27 @@ public class IntroActivity extends AppCompatActivity {
         btnsignup.setAnimation(btnAnim);
     }
 
-    private void GetAppPermssions() {
-        String Permissions[] = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET};
+    private void RequestAllPermissions() {
+        isLocGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        isInternetGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED;
+        isCameraGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
 
-        if(ContextCompat.checkSelfPermission(this.getApplicationContext(), Permissions[0]) == PackageManager.PERMISSION_GRANTED){
-            if(ContextCompat.checkSelfPermission(this.getApplicationContext(), Permissions[1]) == PackageManager.PERMISSION_GRANTED) {
-                if(ContextCompat.checkSelfPermission(this.getApplicationContext(), Permissions[2]) == PackageManager.PERMISSION_GRANTED) {
-                    // All permissions granted
-                    isAllPermsGranted = true;
-                }
-                else {
-                    ActivityCompat.requestPermissions(this, Permissions, PERM_REQUEST);
-                }
-            }
-            else {
-                ActivityCompat.requestPermissions(this, Permissions, PERM_REQUEST);
-            }
+        List<String> needed_permissions = new ArrayList<String>();
+
+        if(!isLocGranted) {
+            needed_permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         }
-        else {
-                ActivityCompat.requestPermissions(this, Permissions, PERM_REQUEST);
+
+        if(!isInternetGranted) {
+            needed_permissions.add(Manifest.permission.INTERNET);
         }
-    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        isAllPermsGranted = false;
+        if(!isCameraGranted) {
+            needed_permissions.add(Manifest.permission.CAMERA);
+        }
 
-        switch(requestCode) {
-            case PERM_REQUEST:
-                if(grantResults.length > 0) {
-                    for(int perm_index = 0; perm_index < grantResults.length; perm_index++) {
-                        if(grantResults[perm_index] != PackageManager.PERMISSION_GRANTED) {
-                            isAllPermsGranted = false;
-                            return;
-                        }
-                    }
-
-                    // All good
-                    isAllPermsGranted = true;
-                }
+        if(!needed_permissions.isEmpty()) {
+            mPermResultLauncher.launch(needed_permissions.toArray(new String[0]));
         }
     }
 }
