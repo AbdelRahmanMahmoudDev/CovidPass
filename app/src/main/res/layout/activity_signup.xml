@@ -18,16 +18,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:sv_animationType="All"
-        app:sv_doneCircleColor="@color/colorAccent"
+        app:sv_doneCircleColor="@color/stepview_circle_done"
         app:sv_doneCircleRadius="12dp"
-        app:sv_doneStepLineColor="@color/colorAccent"
-        app:sv_doneStepMarkColor="@color/colorPrimary"
-        app:sv_nextStepLineColor="@color/colorAccent"
-        app:sv_nextTextColor="@color/colorAccent"
-        app:sv_selectedCircleColor="@color/colorAccent"
+        app:sv_doneStepLineColor="@color/stepview_selected_number"
+        app:sv_doneStepMarkColor="@color/stepview_mark"
+        app:sv_nextStepLineColor="@color/stepview_line_next"
+        app:sv_nextTextColor="@color/stepview_text_next"
+        app:sv_selectedCircleColor="@color/stepview_selected_number"
         app:sv_selectedCircleRadius="12dp"
         app:sv_selectedStepNumberColor="@color/colorPrimary"
-        app:sv_selectedTextColor="@color/colorAccent"
+        app:sv_selectedTextColor="@color/stepview_selected_number"
         app:sv_stepLineWidth="1dp"
         app:sv_stepNumberTextSize="12sp"
         app:sv_stepPadding="4dp"
@@ -37,8 +37,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="411dp"
-        android:layout_height="526dp"
+        android:layout_width="410dp"
+        android:layout_height="600dp"
         android:layout_marginBottom="84dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -48,16 +48,5 @@
         app:layout_constraintTop_toBottomOf="@+id/step_view"
         app:layout_constraintVertical_bias="0.0"
         app:navGraph="@navigation/fragnav" />
-
-    <Button
-        android:id="@+id/SignUp_btn"
-        android:layout_width="120dp"
-        android:layout_height="58dp"
-        android:text="Signup"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

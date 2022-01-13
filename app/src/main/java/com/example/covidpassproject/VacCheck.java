@@ -1,12 +1,14 @@
 package com.example.covidpassproject;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
+import com.airbnb.lottie.LottieAnimationView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class VacCheck extends Fragment {
+    LottieAnimationView vac,notvac;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +61,35 @@ public class VacCheck extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vac_check, container, false);
+        View v =inflater.inflate(R.layout.fragment_vac_check, container, false);
+
+
+        vac=(LottieAnimationView) v.findViewById(R.id.Vac);
+        notvac=(LottieAnimationView) v.findViewById(R.id.notVac);
+        vac.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String VacStatus="Vaccinated";
+                SignUP s=(SignUP) getActivity();
+                s.fillvac(VacStatus);
+                s.stepView.go(3,true);
+                Navigation.findNavController(v).navigate(R.id.action_vacCheck_to_id_vacid_fragment);
+
+
+            }
+        });
+
+        notvac.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String VacStatus="NotVaccinated";
+
+                SignUP s=(SignUP) getActivity();
+                s.fillvac(VacStatus);
+                s.stepView.go(3,true);
+                Navigation.findNavController(v).navigate(R.id.action_vacCheck_to_id_vacid_fragment);
+            }
+        });
+        return v;
     }
 }

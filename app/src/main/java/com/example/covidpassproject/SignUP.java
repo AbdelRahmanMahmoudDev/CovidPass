@@ -2,9 +2,7 @@ package com.example.covidpassproject;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.shuhart.stepview.StepView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SignUP extends AppCompatActivity {
@@ -25,11 +21,11 @@ public class SignUP extends AppCompatActivity {
    // ArrayList<String> vaccine;
    // ArrayAdapter adapter;
     Button signup;
-    HashMap<String, String> form_data;
+    //HashMap<String, String> form_data;
     String Name;
     String Email;
     String Password;
-    String password_check;
+    String VacOrNot;
     String Phone;
     String vacid;
     String ID;
@@ -43,11 +39,12 @@ public class SignUP extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        signup=(Button)findViewById(R.id.SignUp_btn);
+        //signup=(Button)findViewById(R.id.SignUp_btn);
         stepView=findViewById(R.id.step_view);
 
         steps.add("Name and Password");
         steps.add("Email and Phone");
+        steps.add("Vaccinated or Not");
         steps.add("Vaccination and ID");
         stepView.setSteps(steps);
 
@@ -59,7 +56,7 @@ public class SignUP extends AppCompatActivity {
 
        // listView.setAdapter(adapter);
 
-        form_data = new HashMap<String, String>();
+        /*form_data = new HashMap<String, String>();
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,9 +83,9 @@ public class SignUP extends AppCompatActivity {
                 form_data.put(password_check, passwordCheck);
                 form_data.put(Phone, phone);
                 form_data.put(vacid, vaccineCode);
-                form_data.put(ID, id);*/
+                form_data.put(ID, id);
 
-                // Loop through all fields to get all errors
+                Loop through all fields to get all errors
                 boolean something_is_empty = false;
                 for(Map.Entry m : form_data.entrySet()) {
                         if(m.getKey().toString().isEmpty()) {
@@ -102,13 +99,13 @@ public class SignUP extends AppCompatActivity {
                     return;
                 }
 
-                /*if(!Password.equals(password_check)) {
+                if(!Password.equals(password_check)) {
                     passwordCheck.setError("Doesn't match password field");
                     return;
-                }*/
+                }
 
                 AtomicBoolean is_added_to_database = new AtomicBoolean(true);
-                Person p =new Person(Name,Email,Phone,vacid,ID,Password);
+                Person p =new Person(Name,Email,Phone,vacid,ID,Password,VacOrNot);
                 person_node.add(p).addOnFailureListener(failure -> {
                             is_added_to_database.set(false);
                             Toast.makeText(SignUP.this, failure.getMessage(), Toast.LENGTH_SHORT).show();
@@ -126,7 +123,7 @@ public class SignUP extends AppCompatActivity {
                     });
                 }
             }
-        });
+        })*/
     }
 
     @Override
@@ -141,18 +138,52 @@ public class SignUP extends AppCompatActivity {
 
     public void fillNamePassword(String n, String pass)
     {
-        form_data.put(Name,n);
-        form_data.put(Password,pass);
+        Name=n;
+        Password=pass;
     }
 
     public void fillemailPhone(String e,String phone)
     {
-        form_data.put(Email,e);
-        form_data.put(Phone,phone);
+        Email=e;
+        Phone=phone;
+    }
+    public void fillvac(String v)
+    {
+        VacOrNot=v;
+
     }
     public void fillvacIDid(String vid,String id)
     {
-        form_data.put(vacid,vid);
-        form_data.put(ID,id);
+        vacid=vid;
+        ID=id;
+    }
+    public void signup()
+    {
+        //form_data = new HashMap<String, String>();
+        PersonNode person_node = new PersonNode();
+
+        // Enforce an empty table every time
+      //  if(!form_data.isEmpty()) {
+        //    form_data.clear();
+
+        //}
+        AtomicBoolean is_added_to_database = new AtomicBoolean(true);
+        Person p =new Person(Name,Email,Phone,vacid,ID,Password,VacOrNot);
+        person_node.add(p).addOnFailureListener(failure -> {
+            is_added_to_database.set(false);
+            Toast.makeText(SignUP.this, failure.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+
+        if(is_added_to_database.get() == true) {
+
+            person_node.GetFirebaseAuth().createUserWithEmailAndPassword(p.getEmail(), p.getPassword()).addOnSuccessListener(auth -> {
+
+                Toast.makeText(SignUP.this, "User Created!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(SignUP.this, SignIn.class));
+            }).addOnFailureListener(fail -> {
+                Toast.makeText(SignUP.this, fail.getMessage(), Toast.LENGTH_SHORT).show();
+
+            });
+        }
     }
 }
