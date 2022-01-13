@@ -38,8 +38,8 @@ public class SignIn extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // Temporary path for testing google maps api
-                startActivity(new Intent(SignIn.this, MapsActivity.class));
+                // Temporary path for testing QR Code Scanner
+                startActivity(new Intent(SignIn.this, QRCodeScanner.class));
 
                 //String Email = email.getText().toString();
                 //String Password = password.getText().toString();
