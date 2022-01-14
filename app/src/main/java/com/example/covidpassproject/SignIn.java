@@ -38,13 +38,14 @@ public class SignIn extends AppCompatActivity {
             public void onClick(View v) {
 
                 // Temporary path for testing google maps api
-                startActivity(new Intent(SignIn.this, MapsActivity.class));
+                // startActivity(new Intent(SignIn.this, MapsActivity.class));
+                startActivity(new Intent(SignIn.this, UserPageActivity.class));
 
                 //String Email = email.getText().toString();
                 //String Password = password.getText().toString();
 //
                 //PersonNode node = new PersonNode();
-                //node.GetFirebaseAuth().signInWithEmailAndPassword(Email, Password).addOnSuccessListener(success -> {
+                //node.GetFirebaseAuth().signInWithEmailAndPassword(Email, Password).addnSuccessListener(success -> {
                 //    startActivity(new Intent(SignIn.this, MainActivity.class));
                 //}).addOnFailureListener(failure -> {
                 //    Toast.makeText(SignIn.this, failure.getMessage(), Toast.LENGTH_SHORT);
