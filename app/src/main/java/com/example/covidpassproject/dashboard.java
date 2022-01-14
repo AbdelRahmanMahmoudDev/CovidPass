@@ -1,14 +1,14 @@
 package com.example.covidpassproject;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -20,6 +20,7 @@ import com.airbnb.lottie.LottieAnimationView;
 public class dashboard extends Fragment {
     LottieAnimationView animationView;
     WebView webView;
+    int i=0;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,10 +67,28 @@ public class dashboard extends Fragment {
                              Bundle savedInstanceState) {
         View v =inflater.inflate(R.layout.fragment_dashboard, container, false);
         animationView=v.findViewById(R.id.aView);
-        //animationView.setAnimation("@raw/avoid_contacts");
+        int[] array ={R.raw.avoid_contacts,R.raw.avoid_crowd_places,R.raw.avoid_handshakes,R.raw.avoid_travelling,R.raw.dont_touch_face,R.raw.hand_sanitizer,R.raw.stay_at_home,R.raw.use_a_mask,R.raw.wash_hands};
+
+
+        new CountDownTimer(10000,1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {}
+
+            @Override
+            public void onFinish() {
+                animationView.setAnimation(array[i]);
+                animationView.playAnimation();
+                i++;
+                if(i== array.length)
+                    i=0;
+                start();
+            }
+        }.start();
+
         webView=v.findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("https://egcovac.mohp.gov.eg/#/registration");
+        webView.loadUrl("https://www.worldometers.info/coronavirus/country/egypt/");
         return v;
     }
 }

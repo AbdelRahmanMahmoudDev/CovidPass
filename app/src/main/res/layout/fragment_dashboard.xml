@@ -8,23 +8,24 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/aView"
-        android:layout_width="238dp"
-        android:layout_height="188dp"
+        android:layout_width="278dp"
+        android:layout_height="227dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true" />
+        app:lottie_loop="true" />
 
     <WebView
         android:id="@+id/webView"
-        android:layout_width="341dp"
-        android:layout_height="359dp"
+        android:layout_width="412dp"
+        android:layout_height="408dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/aView"
-        app:layout_constraintVertical_bias="0.093" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
