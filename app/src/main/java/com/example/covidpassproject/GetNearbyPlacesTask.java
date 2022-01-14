@@ -58,7 +58,7 @@ public class GetNearbyPlacesTask extends AsyncTask<Object, String, String> {
 
             options.position(new LatLng(latitude, longitude));
             options.title(name_of_place + " : " + vicinity);
-            options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+            options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
             mMap.addMarker(options);
         }
     }
