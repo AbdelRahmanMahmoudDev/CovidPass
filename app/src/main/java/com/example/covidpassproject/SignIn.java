@@ -39,7 +39,7 @@ public class SignIn extends AppCompatActivity {
 
                 // Temporary path for testing google maps api
                 // startActivity(new Intent(SignIn.this, MapsActivity.class));
-                startActivity(new Intent(SignIn.this, MainActivity.class));
+                startActivity(new Intent(SignIn.this, QRCodeScanner.class));
 
                 //String Email = email.getText().toString();
                 //String Password = password.getText().toString();
