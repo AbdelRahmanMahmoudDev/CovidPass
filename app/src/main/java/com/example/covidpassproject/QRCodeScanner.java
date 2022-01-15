@@ -95,7 +95,7 @@ public class QRCodeScanner extends FragmentActivity {
                     @Override
                     public void run() {
                         t1.setText(result.getText().substring(0, 4));
-                        t2.setText(result.getText().substring(result.getText().length() - 20));
+                        t2.setText(result.getText().substring(result.getText().length() - 16));
                         popup.hide();
                     }
                 });
