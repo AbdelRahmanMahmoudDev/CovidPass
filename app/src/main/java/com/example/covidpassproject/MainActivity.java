@@ -30,14 +30,14 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     TextView namemenu,emailmenu;
-    FirebaseDatabase database=FirebaseDatabase.getInstance("https://covidtest-15516-default-rtdb.firebaseio.com/");
+    FirebaseDatabase database=FirebaseDatabase.getInstance();
 
     // We don't need this, FireBaseAuth assigns a new UUID for authentication anyway
     // so we can't cross-reference this with anything
-    // String userID= FirebaseAuth.getInstance().getCurrentUser().getUid();
+   String userID= FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-    DatabaseReference ref=database.getReference().child("Person");
-    String user_email = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
+    DatabaseReference ref=database.getReference().child("Person").child(userID);
+
 
     String name;
 
@@ -48,10 +48,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -61,25 +57,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i =new Intent(MainActivity.this,QRCodeGeneratorActivity.class);
                 startActivity(i);
-            }
-        });
-
-
-        ref.addValueEventListener(new ValueEventListener() {
-            private static final String TAG = "DatabaseReference";
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                        for(DataSnapshot shot:snapshot.getChildren())
-                        {
-                            String id = shot.getKey();
-                            Log.d(TAG, "ID " + id);
-                        }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
@@ -96,8 +73,31 @@ public class MainActivity extends AppCompatActivity {
         View headerView=navigationView.getHeaderView(0);
         namemenu=(TextView) headerView.findViewById(R.id.nameMenu);
         emailmenu=(TextView) headerView.findViewById(R.id.emailMenu);
-        namemenu.setText(name);
+
         emailmenu.setText("dart ya sy3");
+
+
+
+        ref.addValueEventListener(new ValueEventListener() {
+            private static final String TAG = "DatabaseReference";
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+
+                             Person p=snapshot.getValue(Person.class);
+                            name=p.getName();
+                            namemenu.setText(name);
+                            Log.d(TAG, "name " + name);
+
+                        }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
 

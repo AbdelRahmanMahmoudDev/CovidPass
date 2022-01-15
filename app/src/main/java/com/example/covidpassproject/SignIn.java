@@ -29,7 +29,7 @@ public class SignIn extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(SignIn.this,IntroActivity.class);
+                Intent intent=new Intent(SignIn.this,QRCodeScanner.class);
                 startActivity(intent);
             }
         });

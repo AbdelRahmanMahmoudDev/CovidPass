@@ -1,8 +1,6 @@
 package com.example.covidpassproject;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.Dialog;
@@ -16,9 +14,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -29,7 +25,7 @@ public class QRCodeScanner extends FragmentActivity {
     Dialog popup;
     ImageButton im;
     WebView w;
-    TextView t1;
+    TextView t1,t2;
 
     private CodeScanner mCodeScanner;
 
@@ -39,7 +35,8 @@ public class QRCodeScanner extends FragmentActivity {
         setContentView(R.layout.scanner);
         im=(ImageButton)findViewById(R.id.imageButton);
         w=(WebView)findViewById(R.id.webView2);
-        t1=(TextView)findViewById(R.id.textView12) ;
+        t1=(TextView)findViewById(R.id.idt) ;
+        t2=(TextView)findViewById(R.id.vidt) ;
 
         w.setWebViewClient(new WebViewClient());
         w.getSettings().setLoadsImagesAutomatically(true);
@@ -94,7 +91,8 @@ public class QRCodeScanner extends FragmentActivity {
 
                     @Override
                     public void run() {
-                        t1.setText(result.getText());
+                        t1.setText(result.getText().substring(0,4));
+                        t2.setText(result.getText().substring(result.getText().length()-20));
                         popup.hide();
                     }
                 });
