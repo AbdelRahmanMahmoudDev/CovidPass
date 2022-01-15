@@ -110,7 +110,7 @@ public class id_vacid_fragment extends Fragment {
                     String i=id.getText().toString();
                     String vi=vacid.getText().toString();
                     SignUP s=(SignUP) getActivity();
-                    s.fillvacIDid(i,vi);
+                    s.fillvacIDid(vi,i);
                     s.signup();
                 }
             }
