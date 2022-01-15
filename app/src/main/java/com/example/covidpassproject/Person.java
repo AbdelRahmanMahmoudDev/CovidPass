@@ -29,8 +29,16 @@ public class Person {
         return Name;
     }
 
+    public void setName(String name) {
+        Name = name;
+    }
+
     public String getEmail() {
         return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
     }
 
     public String getPhone() {
@@ -52,6 +60,5 @@ public class Person {
     public String getVaccinationStatus() {
         return VaccinationStatus;
     }
-
 
 }

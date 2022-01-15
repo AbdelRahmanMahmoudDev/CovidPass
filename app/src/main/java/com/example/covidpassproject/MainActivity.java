@@ -2,6 +2,7 @@ package com.example.covidpassproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,12 +26,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     TextView namemenu,emailmenu;
     FirebaseDatabase database=FirebaseDatabase.getInstance("https://covidtest-15516-default-rtdb.firebaseio.com/");
-    String userID= FirebaseAuth.getInstance().getCurrentUser().getUid();
-    DatabaseReference ref=database.getReference().child("Person").child(userID);
+
+    // We don't need this, FireBaseAuth assigns a new UUID for authentication anyway
+    // so we can't cross-reference this with anything
+    // String userID= FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+    DatabaseReference ref=database.getReference().child("Person");
+    String user_email = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getEmail();
+
     String name;
 
 
@@ -58,15 +66,22 @@ public class MainActivity extends AppCompatActivity {
 
 
         ref.addValueEventListener(new ValueEventListener() {
+            private static final String TAG = "DatabaseReference";
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         for(DataSnapshot shot:snapshot.getChildren())
                         {
-                            Person p=snapshot.getValue(Person.class);
-                            name= p.getName();
-                            System.out.println("name is :"+name);
-
+                            Person person = shot.getValue(Person.class);
+                            assert person != null;
+                            if(user_email.equals(person.getEmail())) {
+                                name = person.getName();
+                                Log.d(TAG, "NAME " + name);
+                            }
+                            else {
+                                Log.d(TAG, "user email " + user_email);
+                                Log.d(TAG, "person email " + person.getEmail());
+                            }
                         }
             }
 

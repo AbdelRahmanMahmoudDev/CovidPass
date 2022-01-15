@@ -28,6 +28,7 @@ public class PersonNode {
         Task<Void> result = null;
         if(person != null) {
             result = m_database_reference.push().setValue(person);
+
         }
         else {
             // TODO: Log insertion error
