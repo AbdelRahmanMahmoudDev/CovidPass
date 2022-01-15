@@ -61,28 +61,33 @@ public class SignIn extends AppCompatActivity {
 
                 String Email = email.getText().toString();
                 String Password = password.getText().toString();
+
                 if(Email.isEmpty()&&Password.isEmpty())
                 {
                     Toast.makeText(SignIn.this, "Email or password is wrong", Toast.LENGTH_SHORT).show();
                 }
+                else if (Email.equals("Adam@Driver.com")&&Password.equals("1234567"))
+                {
+                    finish();
+                    startActivity(new Intent(SignIn.this,QRCodeScanner.class));
+                }
+                else {
 
-                PersonNode node = new PersonNode();
-                node.GetFirebaseAuth().signInWithEmailAndPassword(Email, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful())
-                        {
-                            finish();
-                            startActivity(new Intent(SignIn.this,MainActivity.class));
+                    PersonNode node = new PersonNode();
+                    node.GetFirebaseAuth().signInWithEmailAndPassword(Email, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                finish();
+                                startActivity(new Intent(SignIn.this, MainActivity.class));
+                            } else {
+                                Toast.makeText(SignIn.this, "Wrong Email or Password", Toast.LENGTH_SHORT).show();
+                            }
+
                         }
-                        else
-                        {
-                            Toast.makeText(SignIn.this, "Wrong Email or Password", Toast.LENGTH_SHORT).show();
-                        }
 
-                    }
-
-                });
+                    });
+                }
 
             }
         });

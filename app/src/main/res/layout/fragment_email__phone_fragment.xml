@@ -41,13 +41,27 @@
         android:id="@+id/EPnext_btn"
         android:layout_width="128dp"
         android:layout_height="56dp"
+        android:backgroundTint="@color/stepview_mark"
         android:text="NEXT"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frgPhone_txt"
-        app:layout_constraintVertical_bias="0.396"
-        android:visibility="invisible"/>
+        app:layout_constraintVertical_bias="0.396" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="183dp"
+        android:layout_height="169dp"
+        android:layout_marginTop="16dp"
+        android:alpha="0.25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/background" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

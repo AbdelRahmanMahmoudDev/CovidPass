@@ -42,13 +42,14 @@
         android:id="@+id/signup"
         android:layout_width="109dp"
         android:layout_height="60dp"
+        android:backgroundTint="@color/stepview_mark"
         android:text="SignUP"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/VacID_txt"
-        app:layout_constraintVertical_bias="0.454"
-        android:visibility="invisible"/>
+        app:layout_constraintVertical_bias="0.454" />
 
     <TextView
         android:id="@+id/test"
@@ -76,4 +77,17 @@
         app:layout_constraintHorizontal_bias="0.905"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/VacID_txt" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="178dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="4dp"
+        android:alpha="0.25"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/background" />
 </androidx.constraintlayout.widget.ConstraintLayout>

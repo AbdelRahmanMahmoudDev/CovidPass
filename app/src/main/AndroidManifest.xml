@@ -24,6 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CovidPassProject">
         <activity
+            android:name=".UserTypeSelectorActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false"
             android:label="@string/title_activity_main2"
@@ -66,7 +69,6 @@
         <activity
             android:name=".SignUP"
             android:exported="false" />
-
         <activity
             android:name=".IntroActivity"
             android:exported="true">
