@@ -90,6 +90,10 @@ public class name_password_fragment extends Fragment {
                 else if(!name.getText().toString().isEmpty()&&pass.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(),"Enter a valid password ",Toast.LENGTH_SHORT).show();
                 }
+                else if(pass.getText().toString().length()<6)
+                {
+                    Toast.makeText(getContext(), "Password must be more than 6 digits", Toast.LENGTH_SHORT).show();
+                }
                 else if(name.getText().toString().isEmpty()&&!pass.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(),"Enter your name",Toast.LENGTH_SHORT).show();
                 }

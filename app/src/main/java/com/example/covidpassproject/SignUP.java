@@ -180,6 +180,9 @@ public class SignUP extends AppCompatActivity {
                 String uuid = user.getUid();
 
                 Person p =new Person(Name,Email,Phone,vacid,ID,Password,VacOrNot);
+                finish();
+                Intent intent=new Intent(SignUP.this,SignIn.class);
+                startActivity(intent);
                 person_node.add(p, uuid).addOnFailureListener(failure -> {
                     Toast.makeText(SignUP.this, failure.getMessage(), Toast.LENGTH_SHORT).show();
                 });

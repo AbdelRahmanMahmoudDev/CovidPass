@@ -14,6 +14,8 @@
         android:ems="10"
         android:hint="Enter your ID"
         android:inputType="numberPassword"
+        android:textColorHighlight="@color/stepview_mark"
+        android:textColorLink="@color/stepview_selected_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.192"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +30,8 @@
         android:ems="10"
         android:hint="Enter the 20 Vaccination Number "
         android:inputType="numberPassword"
+        android:textColorHighlight="@color/stepview_mark"
+        android:textColorLink="@color/stepview_selected_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +47,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/VacID_txt"
-        app:layout_constraintVertical_bias="0.454" />
+        app:layout_constraintVertical_bias="0.454"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/test"

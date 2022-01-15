@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -67,10 +69,13 @@ public class id_vacid_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_id_vacid_fragment, container, false);
+        Animation btnAnim = AnimationUtils.loadAnimation(getActivity(),R.anim.button_animation);
         t1=(TextView) v.findViewById(R.id.click);
         id=(EditText)v.findViewById(R.id.ID_txt);
         signup=(Button) v.findViewById(R.id.signup);
         vacid=(EditText)v.findViewById(R.id.VacID_txt);
+        signup.setVisibility(View.VISIBLE);
+        signup.setAnimation(btnAnim);
         t1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

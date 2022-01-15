@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    TextView namemenu,emailmenu;
+    TextView namemenu,emailmenu,signout;
     FirebaseDatabase database=FirebaseDatabase.getInstance();
 
     // We don't need this, FireBaseAuth assigns a new UUID for authentication anyway
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference ref=database.getReference().child("Person").child(userID);
 
 
-    String name;
+    String name,email;
 
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -73,8 +73,16 @@ public class MainActivity extends AppCompatActivity {
         View headerView=navigationView.getHeaderView(0);
         namemenu=(TextView) headerView.findViewById(R.id.nameMenu);
         emailmenu=(TextView) headerView.findViewById(R.id.emailMenu);
+        signout=(TextView) headerView.findViewById(R.id.Signoutt);
 
-        emailmenu.setText("dart ya sy3");
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                startActivity(new Intent(MainActivity.this,SignIn.class));
+            }
+        });
 
 
 
@@ -84,10 +92,11 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
 
-                             Person p=snapshot.getValue(Person.class);
-                            name=p.getName();
+                             name=snapshot.child("name").getValue(String.class);
+
                             namemenu.setText(name);
-                            Log.d(TAG, "name " + name);
+                            email=snapshot.child("email").getValue(String.class);
+                            emailmenu.setText(email);
 
                         }
             }

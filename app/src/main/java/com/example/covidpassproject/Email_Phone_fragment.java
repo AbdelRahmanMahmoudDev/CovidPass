@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -66,10 +68,14 @@ public class Email_Phone_fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v=inflater.inflate(R.layout.fragment_email__phone_fragment, container, false);
+        Animation btnAnim = AnimationUtils.loadAnimation(getActivity(),R.anim.button_animation);
         frgemail=v.findViewById(R.id.frgEmail_txt);
         frgphone=v.findViewById(R.id.frgPhone_txt);
         epNext=v.findViewById(R.id.EPnext_btn);
-        epBack=v.findViewById(R.id.EPback_btn);
+
+        epNext.setVisibility(View.VISIBLE);
+        epNext.setAnimation(btnAnim);
+
 
         epNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,15 +96,7 @@ public class Email_Phone_fragment extends Fragment {
                 }
             }
         });
-        epBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SignUP s=(SignUP) getActivity();
-                s.stepView.done(false);
-                s.stepView.go(1,true);
 
-            }
-        });
 
 
         return v;

@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -15,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -33,10 +36,10 @@ public class QRCodeScanner extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scanner);
-        im=(ImageButton)findViewById(R.id.imageButton);
-        w=(WebView)findViewById(R.id.webView2);
-        t1=(TextView)findViewById(R.id.idt) ;
-        t2=(TextView)findViewById(R.id.vidt) ;
+        im = (ImageButton) findViewById(R.id.imageButton);
+        w = (WebView) findViewById(R.id.webView2);
+        t1 = (TextView) findViewById(R.id.idt);
+        t2 = (TextView) findViewById(R.id.vidt);
 
         w.setWebViewClient(new WebViewClient());
         w.getSettings().setLoadsImagesAutomatically(true);
@@ -77,7 +80,7 @@ public class QRCodeScanner extends FragmentActivity {
             }
         });
 
-        popup=new Dialog(this,R.style.PauseDialog);
+        popup = new Dialog(this, R.style.PauseDialog);
 
         popup.setContentView(R.layout.activity_qrcode_scanner);
         popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -91,8 +94,8 @@ public class QRCodeScanner extends FragmentActivity {
 
                     @Override
                     public void run() {
-                        t1.setText(result.getText().substring(0,4));
-                        t2.setText(result.getText().substring(result.getText().length()-20));
+                        t1.setText(result.getText().substring(0, 4));
+                        t2.setText(result.getText().substring(result.getText().length() - 20));
                         popup.hide();
                     }
                 });
@@ -107,6 +110,28 @@ public class QRCodeScanner extends FragmentActivity {
 
         scannerView.setOnClickListener(click -> {
             mCodeScanner.startPreview();
+        });
+        t1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!t1.getText().toString().equals("No Qr detected")) {
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("label", t1.getText().toString());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(getApplicationContext(), "saved to clipboard", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        t2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!t2.getText().toString().equals("No Qr detected")) {
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("label", t2.getText().toString());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(getApplicationContext(), "saved to clipboard", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
     }
 

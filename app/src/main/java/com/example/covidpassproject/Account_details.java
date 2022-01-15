@@ -2,11 +2,21 @@ package com.example.covidpassproject;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +24,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class Account_details extends Fragment {
+    TextView t1,t2,t3,t4;
+    String name,email,phone,vid;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +70,45 @@ public class Account_details extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_account_details, container, false);
+        View v=inflater.inflate(R.layout.fragment_account_details, container, false);
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+
+        // We don't need this, FireBaseAuth assigns a new UUID for authentication anyway
+        // so we can't cross-reference this with anything
+        String userID= FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        DatabaseReference ref=database.getReference().child("Person").child(userID);
+        t1=v.findViewById(R.id.nt);
+        t2=v.findViewById(R.id.et);
+        t3=v.findViewById(R.id.pt);
+        t4=v.findViewById(R.id.vt);
+
+        ref.addValueEventListener(new ValueEventListener() {
+            private static final String TAG = "DatabaseReference";
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+
+                    name=snapshot.child("name").getValue(String.class);
+
+                    t1.setText(name);
+                    email=snapshot.child("email").getValue(String.class);
+                    t2.setText(email);
+                    phone=snapshot.child("phone").getValue(String.class);
+                    t3.setText(phone);
+                    vid=snapshot.child("vacID").getValue(String.class);
+                    t4.setText(vid);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        return v;
     }
 }
