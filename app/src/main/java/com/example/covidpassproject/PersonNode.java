@@ -23,11 +23,11 @@ public class PersonNode {
     }
 
     // Adds nodes to a database
-    public Task<Void> add(Person person) {
+    public Task<Void> add(Person person, String uid) {
         // push() automatically generates a UUID
         Task<Void> result = null;
         if(person != null) {
-            result = m_database_reference.push().setValue(person);
+            result = m_database_reference.child(uid).setValue(person);
 
         }
         else {
@@ -51,5 +51,9 @@ public class PersonNode {
     public FirebaseAuth GetFirebaseAuth() {
         FirebaseAuth result = m_firebase_auth;
         return result;
+    }
+
+    public DatabaseReference GetDatabaseReference() {
+        return m_database_reference;
     }
 }

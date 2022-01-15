@@ -72,16 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
                         for(DataSnapshot shot:snapshot.getChildren())
                         {
-                            Person person = shot.getValue(Person.class);
-                            assert person != null;
-                            if(user_email.equals(person.getEmail())) {
-                                name = person.getName();
-                                Log.d(TAG, "NAME " + name);
-                            }
-                            else {
-                                Log.d(TAG, "user email " + user_email);
-                                Log.d(TAG, "person email " + person.getEmail());
-                            }
+                            String id = shot.getKey();
+                            Log.d(TAG, "ID " + id);
                         }
             }
 

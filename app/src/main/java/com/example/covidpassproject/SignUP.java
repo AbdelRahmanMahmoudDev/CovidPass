@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shuhart.stepview.StepView;
@@ -167,23 +171,22 @@ public class SignUP extends AppCompatActivity {
         //    form_data.clear();
 
         //}
-        AtomicBoolean is_added_to_database = new AtomicBoolean(true);
-        Person p =new Person(Name,Email,Phone,vacid,ID,Password,VacOrNot);
-        person_node.add(p).addOnFailureListener(failure -> {
-            is_added_to_database.set(false);
-            Toast.makeText(SignUP.this, failure.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+        person_node.GetFirebaseAuth().createUserWithEmailAndPassword(Email, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                FirebaseUser user = task.getResult().getUser();
+                String uuid = user.getUid();
+
+                Person p =new Person(Name,Email,Phone,vacid,ID,Password,VacOrNot);
+                person_node.add(p, uuid).addOnFailureListener(failure -> {
+                    Toast.makeText(SignUP.this, failure.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+
+            }
         });
 
-        if(is_added_to_database.get() == true) {
 
-            person_node.GetFirebaseAuth().createUserWithEmailAndPassword(p.getEmail(), p.getPassword()).addOnSuccessListener(auth -> {
-
-                Toast.makeText(SignUP.this, "User Created!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(SignUP.this, SignIn.class));
-            }).addOnFailureListener(fail -> {
-                Toast.makeText(SignUP.this, fail.getMessage(), Toast.LENGTH_SHORT).show();
-
-            });
         }
     }
-}
