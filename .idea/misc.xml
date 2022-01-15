@@ -74,6 +74,15 @@
         <entry key="..\:/mobile apps/CovidPassProject/app/src/main/res/layout/fragment_details_fragment.xml" value="0.264" />
         <entry key="..\:/mobile apps/CovidPassProject/app/src/main/res/layout/fragment_not_vaccinated_.xml" value="0.1" />
         <entry key="..\:/mobile apps/CovidPassProject/app/src/main/res/layout/fragment_vaccinated_.xml" value="0.2359375" />
+        <entry key="..\:/mobile apps/project/CovidPassTest/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.26614583333333336" />
+        <entry key="..\:/mobile apps/project/CovidPassTest/app/src/main/res/layout/activity_vaccinated.xml" value="0.1793478260869565" />
+        <entry key="..\:/mobile apps/project/CovidPassTest/app/src/main/res/layout/app_bar_main.xml" value="0.1793478260869565" />
+        <entry key="..\:/mobile apps/project/CovidPassTest/app/src/main/res/layout/content_main.xml" value="0.1793478260869565" />
+        <entry key="..\:/mobile apps/project/CovidPassTest/app/src/main/res/layout/fragment_not_vaccinated_.xml" value="0.1793478260869565" />
+        <entry key="..\:/mobile apps/project/CovidPassTest/app/src/main/res/layout/fragment_vac_check.xml" value="0.1793478260869565" />
+        <entry key="..\:/mobile apps/project/CovidPassTest/app/src/main/res/layout/layout_screen.xml" value="0.1793478260869565" />
+        <entry key="..\:/mobile apps/project/CovidPassTest/app/src/main/res/layout/nav_header_main.xml" value="0.1793478260869565" />
+        <entry key="..\:/mobile apps/project/CovidPassTest/app/src/main/res/menu/activity_main_drawer.xml" value="0.25" />
       </map>
     </option>
   </component>

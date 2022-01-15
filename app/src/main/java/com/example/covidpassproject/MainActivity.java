@@ -9,7 +9,14 @@ import android.widget.TextView;
 
 import com.example.covidpassproject.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -17,8 +24,15 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     TextView namemenu,emailmenu;
+    FirebaseDatabase database=FirebaseDatabase.getInstance("https://covidtest-15516-default-rtdb.firebaseio.com/");
+    String userID= FirebaseAuth.getInstance().getCurrentUser().getUid();
+    DatabaseReference ref=database.getReference().child("Person").child(userID);
+    String name;
+
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -41,6 +55,26 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        for(DataSnapshot shot:snapshot.getChildren())
+                        {
+                            Person p=snapshot.getValue(Person.class);
+                            name= p.getName();
+                            System.out.println("name is :"+name);
+
+                        }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
@@ -55,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         View headerView=navigationView.getHeaderView(0);
         namemenu=(TextView) headerView.findViewById(R.id.nameMenu);
         emailmenu=(TextView) headerView.findViewById(R.id.emailMenu);
-        namemenu.setText("abdalla");
+        namemenu.setText(name);
         emailmenu.setText("dart ya sy3");
     }
 

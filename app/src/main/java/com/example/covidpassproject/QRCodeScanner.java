@@ -80,10 +80,11 @@ public class QRCodeScanner extends FragmentActivity {
             }
         });
 
-        popup=new Dialog(this);
+        popup=new Dialog(this,R.style.PauseDialog);
 
         popup.setContentView(R.layout.activity_qrcode_scanner);
         popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         CodeScannerView scannerView = popup.findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
         mCodeScanner.setDecodeCallback(new DecodeCallback() {

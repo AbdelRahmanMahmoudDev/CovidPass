@@ -30,6 +30,6 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="60dp"
         android:backgroundTint="@color/stepview_mark"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        app:srcCompat="@drawable/qr_code" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
