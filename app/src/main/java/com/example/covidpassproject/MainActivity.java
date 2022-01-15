@@ -3,6 +3,8 @@ package com.example.covidpassproject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 
 import com.example.covidpassproject.databinding.ActivityMainBinding;
@@ -16,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+    TextView namemenu,emailmenu;
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -23,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -46,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        View headerView=navigationView.getHeaderView(0);
+        namemenu=(TextView) headerView.findViewById(R.id.nameMenu);
+        emailmenu=(TextView) headerView.findViewById(R.id.emailMenu);
+        namemenu.setText("abdalla");
+        emailmenu.setText("dart ya sy3");
     }
 
 

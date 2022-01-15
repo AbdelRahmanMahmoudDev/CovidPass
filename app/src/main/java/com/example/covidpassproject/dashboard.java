@@ -67,7 +67,9 @@ public class dashboard extends Fragment {
                              Bundle savedInstanceState) {
         View v =inflater.inflate(R.layout.fragment_dashboard, container, false);
         animationView=v.findViewById(R.id.aView);
-        int[] array ={R.raw.avoid_contacts,R.raw.avoid_crowd_places,R.raw.avoid_handshakes,R.raw.avoid_travelling,R.raw.dont_touch_face,R.raw.hand_sanitizer,R.raw.stay_at_home,R.raw.use_a_mask,R.raw.wash_hands};
+        animationView.setAnimation(R.raw.avoid_contacts);
+        animationView.playAnimation();
+        int[] array ={R.raw.avoid_crowd_places,R.raw.avoid_handshakes,R.raw.avoid_travelling,R.raw.dont_touch_face,R.raw.hand_sanitizer,R.raw.stay_at_home,R.raw.use_a_mask,R.raw.wash_hands,R.raw.avoid_contacts};
 
 
         new CountDownTimer(10000,1000) {
@@ -89,6 +91,7 @@ public class dashboard extends Fragment {
         webView=v.findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("https://www.worldometers.info/coronavirus/country/egypt/");
+        webView.scrollTo(0,500);
         return v;
     }
 }

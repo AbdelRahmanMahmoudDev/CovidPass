@@ -46,7 +46,7 @@
         app:layout_constraintHorizontal_bias="0.192"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.812" />
+        app:layout_constraintVertical_bias="0.811" />
 
     <Button
         android:id="@+id/back_btn"
@@ -56,8 +56,8 @@
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.788"
+        app:layout_constraintHorizontal_bias="0.792"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.81" />
+        app:layout_constraintVertical_bias="0.811" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,8 +40,20 @@
         android:text="NEXT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.802"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frgPhone_txt"
-        app:layout_constraintVertical_bias="0.401" />
+        app:layout_constraintVertical_bias="0.388" />
+
+    <Button
+        android:id="@+id/EPback_btn"
+        android:layout_width="128dp"
+        android:layout_height="56dp"
+        android:text="back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.208"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frgPhone_txt"
+        app:layout_constraintVertical_bias="0.388" />
 </androidx.constraintlayout.widget.ConstraintLayout>

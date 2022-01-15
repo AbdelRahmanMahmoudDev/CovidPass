@@ -18,7 +18,7 @@ import androidx.navigation.Navigation;
  */
 public class Email_Phone_fragment extends Fragment {
     EditText frgemail,frgphone;
-    Button epNext;
+    Button epNext,epBack;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -69,6 +69,7 @@ public class Email_Phone_fragment extends Fragment {
         frgemail=v.findViewById(R.id.frgEmail_txt);
         frgphone=v.findViewById(R.id.frgPhone_txt);
         epNext=v.findViewById(R.id.EPnext_btn);
+        epBack=v.findViewById(R.id.EPback_btn);
 
         epNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +88,15 @@ public class Email_Phone_fragment extends Fragment {
 
 
                 }
+            }
+        });
+        epBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SignUP s=(SignUP) getActivity();
+                s.stepView.done(false);
+                s.stepView.go(1,true);
+
             }
         });
 
