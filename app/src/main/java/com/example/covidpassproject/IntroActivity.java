@@ -85,7 +85,7 @@ public class IntroActivity extends AppCompatActivity {
 
         final List<ScreenItem> mList = new ArrayList<>();
         mList.add(new ScreenItem("QR Code","Scan your Qr Code to Verify that You are Vaccinated",R.raw.qr_code));
-        mList.add(new ScreenItem("Nearest Location","Know the nereast Hospital for you to get Vaccinated as Easy as it can be",R.raw.location));
+        mList.add(new ScreenItem("Nearest Location","Know the nearest Hospital for you to get Vaccinated as Easy as it can be",R.raw.location));
         mList.add(new ScreenItem("Secure Data","No one can Access your Data Except you",R.raw.virus_logo));
 
         // setup viewpager
