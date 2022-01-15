@@ -30,9 +30,6 @@ public class PersonNode {
             result = m_database_reference.child(uid).setValue(person);
 
         }
-        else {
-            // TODO: Log insertion error
-        }
         return result;
     }
 

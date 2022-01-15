@@ -7,10 +7,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class SignIn extends AppCompatActivity {
 
@@ -46,10 +57,32 @@ public class SignIn extends AppCompatActivity {
                 String Password = password.getText().toString();
 
                 PersonNode node = new PersonNode();
-                node.GetFirebaseAuth().signInWithEmailAndPassword(Email, Password).addOnSuccessListener(success -> {
-                    startActivity(new Intent(SignIn.this, MainActivity.class));
-                }).addOnFailureListener(failure -> {
-                    Toast.makeText(SignIn.this, failure.getMessage(), Toast.LENGTH_SHORT);
+
+                node.GetFirebaseAuth().signInWithEmailAndPassword(Email, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()) {
+                            FirebaseUser user = task.getResult().getUser();
+                            String uuid = user.getUid();
+                            FirebaseDatabase database=FirebaseDatabase.getInstance();
+                            DatabaseReference ref=database.getReference().child("Scanner").child(uuid);
+                            ref.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String bing = snapshot.getKey();
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                            startActivity(new Intent(SignIn.this, MainActivity.class));
+                        }
+                        else {
+                            Toast.makeText(SignIn.this, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 });
             }
         });

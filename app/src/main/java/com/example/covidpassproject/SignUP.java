@@ -163,30 +163,21 @@ public class SignUP extends AppCompatActivity {
     }
     public void signup()
     {
-        //form_data = new HashMap<String, String>();
         PersonNode person_node = new PersonNode();
-
-        // Enforce an empty table every time
-      //  if(!form_data.isEmpty()) {
-        //    form_data.clear();
-
-        //}
-
 
         person_node.GetFirebaseAuth().createUserWithEmailAndPassword(Email, Password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                FirebaseUser user = task.getResult().getUser();
-                String uuid = user.getUid();
+                if(task.isSuccessful()) {
+                    FirebaseUser user = task.getResult().getUser();
+                    String uuid = user.getUid();
 
-                Person p =new Person(Name,Email,Phone,vacid,ID,Password,VacOrNot);
-                person_node.add(p, uuid).addOnFailureListener(failure -> {
-                    Toast.makeText(SignUP.this, failure.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-
+                    Person p =new Person(Name,Email,Phone,vacid,ID,Password,VacOrNot);
+                    person_node.add(p, uuid).addOnFailureListener(failure -> {
+                        Toast.makeText(SignUP.this, failure.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+                }
             }
         });
-
-
         }
     }
